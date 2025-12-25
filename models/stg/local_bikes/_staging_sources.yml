@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: stg
+    database: caramel-thinker-478614-h2
+    schema: dlk_local_bikes
+    tables:
+      - name: brands
+      - name: categories
+      - name: customers
+      - name: order_items
+      - name: orders
+      - name: products
+      - name: staffs
+      - name: stocks
+      - name: stores
+
