@@ -6,7 +6,7 @@ with agg as (
         sum(stock_quantity) as total_stock,
         sum(sold_quantity) as total_sold,
         round(
-            sum(sold_quantity) / nullif(sum(stock_quantity), 0),
+            sum(stock_quantity) / nullif(sum(sold_quantity), 0),
             2
         ) as couverture
     from {{ ref('int_stock_vs_sales') }}
