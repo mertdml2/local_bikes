@@ -12,4 +12,5 @@ s.rank_flop
  from {{ref('int_stock_magasin_top_flop')}} s
  join {{ref('mart__dim_products')}} p on s.product_id = p.product_id
  join {{ref('mart__dim_stores')}} ss on s.store_id = ss.store_id
+ 
 where rank_flop <= 10
