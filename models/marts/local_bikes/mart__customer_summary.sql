@@ -14,6 +14,7 @@ select
     c.last_name,
     c.city,
     c.state,
+    c.zip_code,
 
     count(distinct co.order_id) as total_orders,
     sum(co.order_revenue) as lifetime_revenue,
@@ -36,4 +37,5 @@ group by
     c.first_name,
     c.last_name,
     c.city,
-    c.state
+    c.state,
+    c.zip_code
