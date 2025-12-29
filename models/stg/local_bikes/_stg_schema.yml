@@ -1,0 +1,262 @@
+version: 2
+
+models:
+  - name: stg_brands
+    description: Brands info
+    columns:
+      - name: brand_id
+        tests: [not_null, unique]
+      - name: brand_name
+
+  - name: stg_categories
+    description: Categories info
+    columns:
+      - name: category_id
+        tests: [not_null, unique]
+      - name: category_name
+
+  - name: stg_customers
+    description: |
+      Staging table for customer reference data.
+
+      Source: raw.customers  
+      Grain: 1 row per customer
+
+    columns:
+      - name: customer_id
+        description: Unique identifier of the customer
+        tests:
+          - not_null
+          - unique
+
+      - name: first_name
+        description: Customer first name
+
+      - name: last_name
+        description: Customer last name
+
+      - name: phone
+        description: Customer phone number
+
+      - name: email
+        description: Customer email address
+
+      - name: street
+        description: Street address of the customer
+
+      - name: city
+        description: City of residence
+
+      - name: state
+        description: State or region of residence
+
+      - name: zip_code
+        description: Postal code of the customer address
+
+
+  - name: stg_order_items
+    description: |
+      Staging table for order line items.
+
+      Source: raw.order_items  
+      Grain: 1 row per order and product
+
+    columns:
+      - name: order_id
+        description: Unique identifier of the order
+        tests:
+          - not_null
+
+      - name: item_id
+        description: Unique identifier of the order line item
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Unique identifier of the product
+        tests:
+          - not_null
+
+      - name: quantity
+        description: Number of units ordered
+
+      - name: list_price
+        description: Product list price at the time of the order
+
+      - name: discount
+        description: Discount applied to the order item (ratio or amount depending on source)
+
+
+  - name: stg_orders
+    description: |
+      Staging table for customer orders.
+
+      Source: raw.orders  
+      Grain: 1 row per order
+
+    columns:
+      - name: order_id
+        description: Unique identifier of the order
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: Identifier of the customer who placed the order
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Identifier of the store where the order was placed
+        tests:
+          - not_null
+
+      - name: staff_id
+        description: Identifier of the staff member responsible for the order
+
+      - name: order_status
+        description: Current status of the order
+
+      - name: order_date
+        description: Date when the order was placed
+        tests:
+          - not_null
+
+      - name: required_date
+        description: Date when the order is required by the customer
+
+      - name: shipped_date
+        description: Date when the order was shipped, if applicable
+
+
+  - name: stg_products
+    description: |
+      Staging table for product reference data.
+
+      Source: raw.products  
+      Grain: 1 row per product
+
+    columns:
+      - name: product_id
+        description: Unique identifier of the product
+        tests:
+          - not_null
+          - unique
+
+      - name: brand_id
+        description: Identifier of the brand associated with the product
+        tests:
+          - not_null
+
+      - name: category_id
+        description: Identifier of the product category
+        tests:
+          - not_null
+
+      - name: model_year
+        description: Model year of the product
+
+      - name: list_price
+        description: Product list price
+
+      - name: product_name
+        description: Product display name
+
+
+  - name: stg_staffs
+    description: |
+      Staging table for staff reference data.
+
+      Source: raw.staffs  
+      Grain: 1 row per staff member
+
+    columns:
+      - name: staff_id
+        description: Unique identifier of the staff member
+        tests:
+          - not_null
+          - unique
+
+      - name: store_id
+        description: Identifier of the store where the staff member works
+        tests:
+          - not_null
+
+      - name: first_name
+        description: Staff member first name
+
+      - name: last_name
+        description: Staff member last name
+
+      - name: email
+        description: Staff member email address
+
+      - name: phone
+        description: Staff member phone number
+
+      - name: active
+        description: Indicates whether the staff member is currently active
+
+      - name: manager_id
+        description: Identifier of the staff member’s manager, if applicable
+
+
+  - name: stg_stocks
+    description: |
+      Staging table for product stock levels by store.
+
+      Source: raw.stocks  
+      Grain: 1 row per product and store
+
+    columns:
+      - name: product_id
+        description: Identifier of the product
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Identifier of the store
+        tests:
+          - not_null
+
+      - name: quantity
+        description: Quantity of product available in stock
+
+
+  - name: stg_stores
+    description: |
+      Staging table for store reference data.
+
+      Source: raw.stores  
+      Grain: 1 row per store
+
+    columns:
+      - name: store_id
+        description: Unique identifier of the store
+        tests:
+          - not_null
+          - unique
+
+      - name: store_name
+        description: Store display name
+
+      - name: phone
+        description: Store contact phone number
+
+      - name: email
+        description: Store contact email address
+
+      - name: street
+        description: Street address of the store
+
+      - name: city
+        description: City where the store is located
+
+      - name: state
+        description: State or region where the store is located
+
+      - name: zip_code
+        description: Postal code of the store address
+
+
+
