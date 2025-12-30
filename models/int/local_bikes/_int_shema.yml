@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: int_stocks
+    description: Daily snapshot of stock quantities per product and store.
+    columns:
+      - name: product_id
+        description: Unique identifier of the product.
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Unique identifier of the store.
+        tests:
+          - not_null
+
+      - name: snapshot_date
+        description: Date when the stock snapshot is taken.
+        tests:
+          - not_null
+
+      - name: stock_quantity
+        description: Quantity of product in stock for the snapshot date.
+
+  - name: int_order_items_detailed
+    description: Order items enriched with order-level information and net revenue.
+    columns:
+      - name: order_id
+        description: Unique identifier of the order.
+        tests:
+          - not_null
+
+      - name: item_id
+        description: Unique identifier of the order item.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Identifier of the product sold.
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Store where the order was placed.
+
+      - name: order_date
+        description: Date when the order was placed.
+
+      - name: net_revenue
+        description: Net revenue after applying discount.
+
+  - name: int_stock_vs_sales
+    description: Daily comparison of stock quantities versus cumulative sold quantities.
+    columns:
+      - name: snapshot_date
+        description: Stock snapshot date.
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Store identifier.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier.
+        tests:
+          - not_null
+
+      - name: stock_quantity
+        description: Total stock quantity at snapshot date.
+
+      - name: sold_quantity
+        description: Total quantity sold up to snapshot date.
+
+  - name: int_stock_magasin_top_flop
+    description: Stock coverage metrics with top and flop rankings per store.
+    columns:
+      - name: jour
+        description: Snapshot date used for ranking.
+        tests:
+          - not_null
+
+      - name: store_id
+        description: Store identifier.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier.
+        tests:
+          - not_null
+
+      - name: couverture
+        description: Stock coverage ratio (stock divided by sales).
+
+      - name: rank_best
+        description: Ranking of products with highest stock coverage per store.
+
+      - name: rank_flop
+        description: Ranking of products with lowest non-zero stock coverage per store.
