@@ -1,0 +1,378 @@
+version: 2
+
+models:
+  - name: mart__fct_ventes
+    description: "mart__fct_ventes"
+    columns:
+      - name: order_id
+        data_type: string
+        description: ""
+
+      - name: product_id
+        data_type: string
+        description: ""
+
+      - name: customer_id
+        data_type: string
+        description: ""
+
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: staff_id
+        data_type: string
+        description: ""
+
+      - name: order_date
+        data_type: date
+        description: ""
+
+      - name: quantity
+        data_type: int64
+        description: ""
+
+      - name: net_revenue
+        data_type: float64
+        description: ""
+
+  - name: mart__fct_vente_par_categorie
+    description: "mart__fct_vente_par_categorie"
+    columns:
+      - name: product_id
+        data_type: string
+        description: ""
+
+      - name: product_name
+        data_type: string
+        description: ""
+
+      - name: category_name
+        data_type: string
+        description: ""
+
+      - name: order_date
+        data_type: date
+        description: ""
+
+      - name: units_sold
+        data_type: int64
+        description: ""
+
+      - name: product_revenue
+        data_type: float64
+        description: ""
+
+      - name: total_orders
+        data_type: int64
+        description: ""
+
+  - name: mart__fct_stock_magasin
+    description: "mart__fct_stock_magasin"
+    columns:
+      - name: jour
+        data_type: date
+        description: ""
+
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: total_stock
+        data_type: numeric
+        description: ""
+
+      - name: total_sold
+        data_type: int64
+        description: ""
+
+      - name: couverture
+        data_type: numeric
+        description: ""
+
+  - name: mart__fct_stock_magasin_produit_top
+    description: "mart__fct_stock_magasin_produit_top"
+    columns:
+      - name: jour
+        data_type: date
+        description: ""
+
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: store_name
+        data_type: string
+        description: ""
+
+      - name: product_id
+        data_type: string
+        description: ""
+
+      - name: product_name
+        data_type: string
+        description: ""
+
+      - name: total_stock
+        data_type: numeric
+        description: ""
+
+      - name: total_sold
+        data_type: int64
+        description: ""
+
+      - name: couverture
+        data_type: numeric
+        description: ""
+
+      - name: rank_best
+        data_type: int64
+        description: ""
+
+  - name: mart__fct_stock_magasin_produit_flop
+    description: "mart__fct_stock_magasin_produit_flop"
+    columns:
+      - name: jour
+        data_type: date
+        description: ""
+
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: store_name
+        data_type: string
+        description: ""
+
+      - name: product_id
+        data_type: string
+        description: ""
+
+      - name: product_name
+        data_type: string
+        description: ""
+
+      - name: total_stock
+        data_type: numeric
+        description: ""
+
+      - name: total_sold
+        data_type: int64
+        description: ""
+
+      - name: couverture
+        data_type: numeric
+        description: ""
+
+      - name: rank_flop
+        data_type: int64
+        description: ""
+
+  - name: mart__fct_performance_commerciale_daily
+    description: "mart__fct_performance_commerciale_daily"
+    columns:
+      - name: order_date
+        data_type: date
+        description: ""
+
+      - name: total_revenue
+        data_type: float64
+        description: ""
+
+      - name: total_orders
+        data_type: int64
+        description: ""
+
+      - name: total_units
+        data_type: int64
+        description: ""
+
+      - name: avg_basket
+        data_type: float64
+        description: ""
+
+  - name: mart__fct_performance_commercial_magasin
+    description: "mart__fct_performance_commercial_magasin"
+    columns:
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: store_name
+        data_type: string
+        description: ""
+
+      - name: order_date
+        data_type: date
+        description: ""
+
+      - name: store_revenue
+        data_type: float64
+        description: ""
+
+      - name: store_orders
+        data_type: int64
+        description: ""
+
+      - name: units_sold
+        data_type: int64
+        description: ""
+
+      - name: avg_basket
+        data_type: float64
+        description: ""
+
+  - name: mart__dim_products
+    description: "mart__dim_products"
+    columns:
+      - name: product_id
+        data_type: string
+        description: ""
+
+      - name: product_name
+        data_type: string
+        description: ""
+
+      - name: brand_name
+        data_type: string
+        description: ""
+
+      - name: category_name
+        data_type: string
+        description: ""
+
+      - name: model_year
+        data_type: string
+        description: ""
+
+      - name: list_price
+        data_type: numeric
+        description: ""
+
+  - name: mart__dim_stores
+    description: "mart__dim_stores"
+    columns:
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: store_name
+        data_type: string
+        description: ""
+
+      - name: city
+        data_type: string
+        description: ""
+
+      - name: state
+        data_type: string
+        description: ""
+
+  - name: mart__dim_staff
+    description: "mart__dim_staff"
+    columns:
+      - name: staff_id
+        data_type: string
+        description: ""
+
+      - name: store_id
+        data_type: string
+        description: ""
+
+      - name: first_name
+        data_type: string
+        description: ""
+
+      - name: last_name
+        data_type: string
+        description: ""
+
+      - name: is_active
+        data_type: int64
+        description: ""
+
+      - name: manager_id
+        data_type: string
+        description: ""
+
+  - name: mart__dim_customers
+    description: "mart__dim_customers"
+    columns:
+      - name: customer_id
+        data_type: string
+        description: ""
+
+      - name: first_name
+        data_type: string
+        description: ""
+
+      - name: last_name
+        data_type: string
+        description: ""
+
+      - name: city
+        data_type: string
+        description: ""
+
+      - name: state
+        data_type: string
+        description: ""
+
+      - name: zip_code
+        data_type: int64
+        description: ""
+
+  - name: mart__customer_summary
+    description: "mart__customer_summary"
+    columns:
+      - name: customer_id
+        data_type: string
+        description: ""
+
+      - name: first_name
+        data_type: string
+        description: ""
+
+      - name: last_name
+        data_type: string
+        description: ""
+
+      - name: city
+        data_type: string
+        description: ""
+
+      - name: state
+        data_type: string
+        description: ""
+
+      - name: zip_code
+        data_type: int64
+        description: ""
+
+      - name: total_orders
+        data_type: int64
+        description: ""
+
+      - name: lifetime_revenue
+        data_type: float64
+        description: ""
+
+      - name: avg_basket
+        data_type: float64
+        description: ""
+
+      - name: first_order_date
+        data_type: date
+        description: ""
+
+      - name: last_order_date
+        data_type: date
+        description: ""
+
+      - name: customer_lifetime_days
+        data_type: int64
+        description: ""
+
+      - name: customer_type
+        data_type: string
+        description: ""
