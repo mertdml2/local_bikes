@@ -1,24 +1,45 @@
-with agg as (
+{{ config(
+    materialized = 'view',
+    tags = ['intermediate', 'inventory']
+) }}
+
+with base as (
+
     select
-        snapshot_date as jour,
+        snapshot_date,
         store_id,
         product_id,
-        sum(stock_quantity) as total_stock,
-        sum(sold_quantity) as total_sold,
-        round(
-            sum(stock_quantity) / nullif(sum(sold_quantity), 0),
-            2
-        ) as couverture
+        stock_quantity,
+        sold_quantity
     from {{ ref('int_stock_vs_sales') }}
-    group by 
-        snapshot_date, 
+
+),
+
+agg as (
+
+    select
+        snapshot_date                              as jour,
+        store_id,
+        product_id,
+        sum(stock_quantity)                       as total_stock,
+        sum(sold_quantity)                        as total_sold,
+        {{ calculate_stock_coverage(
+            'sum(stock_quantity)',
+            'sum(sold_quantity)'
+        ) }}                                      as couverture
+    from base
+    group by
+        snapshot_date,
         store_id,
         product_id
 ),
 
 rank_best as (
+
     select
-        *,
+        jour,
+        store_id,
+        product_id,
         row_number() over (
             partition by store_id
             order by couverture desc nulls last
@@ -27,6 +48,7 @@ rank_best as (
 ),
 
 rank_flop as (
+
     select
         jour,
         store_id,
@@ -40,11 +62,20 @@ rank_flop as (
 )
 
 select
-    a.*,
+    a.jour,
+    a.store_id,
+    a.product_id,
+    a.total_stock,
+    a.total_sold,
+    a.couverture,
     b.rank_best,
     f.rank_flop
 from agg a
 left join rank_best b
-    using (jour, store_id, product_id)
+    on  a.jour = b.jour
+    and a.store_id = b.store_id
+    and a.product_id = b.product_id
 left join rank_flop f
-    using (jour, store_id, product_id)
+    on  a.jour = f.jour
+    and a.store_id = f.store_id
+    and a.product_id = f.product_id

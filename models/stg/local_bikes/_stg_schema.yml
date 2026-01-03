@@ -1,33 +1,56 @@
 version: 2
 
 models:
+
   - name: stg_brands
-    description: Brands info
+    description: |
+      Staging table for brand reference data.
+
+      Grain: 1 row per brand
     columns:
-      - name: brand_id
+      - name: brand_sk
+        description: Surrogate key for the brand
         tests: [not_null, unique]
+
+      - name: brand_id
+        description: Business identifier of the brand
+        tests: [not_null]
+
       - name: brand_name
+        description: Brand name
+
 
   - name: stg_categories
-    description: Categories info
+    description: |
+      Staging table for product categories.
+
+      Grain: 1 row per category
     columns:
-      - name: category_id
+      - name: category_sk
+        description: Surrogate key for the category
         tests: [not_null, unique]
+
+      - name: category_id
+        description: Business identifier of the category
+        tests: [not_null]
+
       - name: category_name
+        description: Category name
+
 
   - name: stg_customers
     description: |
       Staging table for customer reference data.
 
-      Source: raw.customers  
       Grain: 1 row per customer
-
     columns:
+      - name: customer_sk
+        description: Surrogate key for the customer
+        tests: [not_null, unique]
+
       - name: customer_id
-        description: Unique identifier of the customer
-        tests:
-          - not_null
-          - unique
+        description: Business identifier of the customer
+        tests: [not_null]
 
       - name: first_name
         description: Customer first name
@@ -58,100 +81,94 @@ models:
     description: |
       Staging table for order line items.
 
-      Source: raw.order_items  
-      Grain: 1 row per order and product
-
+      Grain: 1 row per order and item
     columns:
+      - name: order_item_sk
+        description: Surrogate key for the order item (order_id + item_id)
+        tests: [not_null, unique]
+
       - name: order_id
-        description: Unique identifier of the order
-        tests:
-          - not_null
+        description: Business identifier of the order
+        tests: [not_null]
 
       - name: item_id
-        description: Unique identifier of the order line item
-        tests:
-          - not_null
+        description: Line item identifier within the order
+        tests: [not_null]
 
       - name: product_id
-        description: Unique identifier of the product
-        tests:
-          - not_null
+        description: Business identifier of the product
+        tests: [not_null]
 
       - name: quantity
         description: Number of units ordered
 
       - name: list_price
-        description: Product list price at the time of the order
+        description: Product list price at order time
 
       - name: discount
-        description: Discount applied to the order item (ratio or amount depending on source)
+        description: Discount applied to the order item
 
 
   - name: stg_orders
     description: |
       Staging table for customer orders.
 
-      Source: raw.orders  
       Grain: 1 row per order
-
     columns:
+      - name: order_sk
+        description: Surrogate key for the order
+        tests: [not_null, unique]
+
       - name: order_id
-        description: Unique identifier of the order
-        tests:
-          - not_null
-          - unique
+        description: Business identifier of the order
+        tests: [not_null]
 
       - name: customer_id
-        description: Identifier of the customer who placed the order
-        tests:
-          - not_null
+        description: Business identifier of the customer
+        tests: [not_null]
 
       - name: store_id
-        description: Identifier of the store where the order was placed
-        tests:
-          - not_null
+        description: Business identifier of the store
+        tests: [not_null]
 
       - name: staff_id
-        description: Identifier of the staff member responsible for the order
+        description: Business identifier of the staff member
 
       - name: order_status
-        description: Current status of the order
+        description: Status code of the order
 
       - name: order_date
-        description: Date when the order was placed
-        tests:
-          - not_null
+        description: Date the order was placed
+        tests: [not_null]
 
       - name: required_date
-        description: Date when the order is required by the customer
+        description: Date requested by the customer
 
       - name: shipped_date
-        description: Date when the order was shipped, if applicable
+        description: Date the order was shipped (nullable)
 
 
   - name: stg_products
     description: |
       Staging table for product reference data.
 
-      Source: raw.products  
       Grain: 1 row per product
-
     columns:
+      - name: product_sk
+        description: Surrogate key for the product
+        tests: [not_null, unique]
+
       - name: product_id
-        description: Unique identifier of the product
-        tests:
-          - not_null
-          - unique
+        description: Business identifier of the product
+        tests: [not_null]
 
       - name: brand_id
-        description: Identifier of the brand associated with the product
-        tests:
-          - not_null
+        description: Business identifier of the brand
+        tests: [not_null]
 
       - name: category_id
-        description: Identifier of the product category
-        tests:
-          - not_null
+        description: Business identifier of the category
+        tests: [not_null]
 
       - name: model_year
         description: Model year of the product
@@ -167,75 +184,74 @@ models:
     description: |
       Staging table for staff reference data.
 
-      Source: raw.staffs  
       Grain: 1 row per staff member
-
     columns:
+      - name: staff_sk
+        description: Surrogate key for the staff member
+        tests: [not_null, unique]
+
       - name: staff_id
-        description: Unique identifier of the staff member
-        tests:
-          - not_null
-          - unique
+        description: Business identifier of the staff member
+        tests: [not_null]
 
       - name: store_id
-        description: Identifier of the store where the staff member works
-        tests:
-          - not_null
-
-      - name: first_name
-        description: Staff member first name
-
-      - name: last_name
-        description: Staff member last name
-
-      - name: email
-        description: Staff member email address
-
-      - name: phone
-        description: Staff member phone number
-
-      - name: active
-        description: Indicates whether the staff member is currently active
+        description: Business identifier of the store
+        tests: [not_null]
 
       - name: manager_id
-        description: Identifier of the staff member’s manager, if applicable
+        description: Business identifier of the manager (self-reference)
+
+      - name: first_name
+        description: Staff first name
+
+      - name: last_name
+        description: Staff last name
+
+      - name: email
+        description: Staff email address
+
+      - name: phone
+        description: Staff phone number
+
+      - name: is_active
+        description: Indicates whether the staff member is active
 
 
   - name: stg_stocks
     description: |
       Staging table for product stock levels by store.
 
-      Source: raw.stocks  
       Grain: 1 row per product and store
-
     columns:
+      - name: stock_sk
+        description: Surrogate key for stock (product_id + store_id)
+        tests: [not_null, unique]
+
       - name: product_id
-        description: Identifier of the product
-        tests:
-          - not_null
+        description: Business identifier of the product
+        tests: [not_null]
 
       - name: store_id
-        description: Identifier of the store
-        tests:
-          - not_null
+        description: Business identifier of the store
+        tests: [not_null]
 
       - name: quantity
-        description: Quantity of product available in stock
+        description: Quantity available in stock
 
 
   - name: stg_stores
     description: |
       Staging table for store reference data.
 
-      Source: raw.stores  
       Grain: 1 row per store
-
     columns:
+      - name: store_sk
+        description: Surrogate key for the store
+        tests: [not_null, unique]
+
       - name: store_id
-        description: Unique identifier of the store
-        tests:
-          - not_null
-          - unique
+        description: Business identifier of the store
+        tests: [not_null]
 
       - name: store_name
         description: Store display name
@@ -257,6 +273,3 @@ models:
 
       - name: zip_code
         description: Postal code of the store address
-
-
-

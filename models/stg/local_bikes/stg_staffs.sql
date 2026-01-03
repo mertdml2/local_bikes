@@ -1,6 +1,19 @@
+{{ config(
+    materialized = 'view',
+    tags = ['staging', 'staffs']
+) }}
+
 with source as (
 
-    select *
+    select
+        staff_id,
+        store_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        active,
+        manager_id
     from {{ source('stg', 'staffs') }}
 
 ),
@@ -8,17 +21,42 @@ with source as (
 renamed as (
 
     select
-        cast(staff_id as string) as staff_id,
-        cast(store_id as string) as store_id,
+        cast(staff_id as string)          as staff_id,
+        cast(store_id as string)          as store_id,
+        cast(first_name as string)        as first_name,
+        cast(last_name as string)         as last_name,
+        cast(email as string)             as email,
+        cast(phone as string)             as phone,
+        cast(active as bool)              as is_active,
+        cast(nullif(manager_id, 'NULL') as string) as manager_id
+    from source
+
+),
+
+final as (
+
+    select
+        {{ dbt_utils.generate_surrogate_key(['staff_id']) }} as staff_sk,
+        staff_id,
+        store_id,
+        manager_id,
         first_name,
         last_name,
         email,
         phone,
-        active,
-        case when manager_id = 'NULL' then null else cast(manager_id as string) end as manager_id
-    from source
+        is_active
+    from renamed
 
 )
 
-select *
-from renamed
+select
+    staff_sk,
+    staff_id,
+    store_id,
+    manager_id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    is_active
+from final

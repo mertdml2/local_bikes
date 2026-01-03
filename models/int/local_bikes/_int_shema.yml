@@ -1,23 +1,20 @@
 version: 2
 
 models:
+
   - name: int_stocks
-    description: Daily snapshot of stock quantities per product and store.
+    description: Daily snapshot of stock quantities per product and store (surrogate keys).
     columns:
-      - name: product_id
-        description: Unique identifier of the product.
-        tests:
-          - not_null
-
-      - name: store_id
-        description: Unique identifier of the store.
-        tests:
-          - not_null
-
       - name: snapshot_date
         description: Date when the stock snapshot is taken.
         tests:
           - not_null
+
+      - name: store_sk
+        description: Surrogate key of the store.
+
+      - name: product_sk
+        description: Surrogate key of the product.
 
       - name: stock_quantity
         description: Quantity of product in stock for the snapshot date.
@@ -25,23 +22,20 @@ models:
   - name: int_order_items_detailed
     description: Order items enriched with order-level information and net revenue.
     columns:
-      - name: order_id
-        description: Unique identifier of the order.
+      - name: order_item_sk
+        description: Surrogate key of the order item.
         tests:
           - not_null
+          - unique
 
-      - name: item_id
-        description: Unique identifier of the order item.
-        tests:
-          - not_null
+      - name: order_sk
+        description: Surrogate key of the order.
 
-      - name: product_id
-        description: Identifier of the product sold.
-        tests:
-          - not_null
+      - name: product_sk
+        description: Surrogate key of the product sold.
 
-      - name: store_id
-        description: Store where the order was placed.
+      - name: store_sk
+        description: Surrogate key of the store where the order was placed.
 
       - name: order_date
         description: Date when the order was placed.
@@ -57,15 +51,11 @@ models:
         tests:
           - not_null
 
-      - name: store_id
-        description: Store identifier.
-        tests:
-          - not_null
+      - name: store_sk
+        description: Surrogate key of the store.
 
-      - name: product_id
-        description: Product identifier.
-        tests:
-          - not_null
+      - name: product_sk
+        description: Surrogate key of the product.
 
       - name: stock_quantity
         description: Total stock quantity at snapshot date.
@@ -82,14 +72,12 @@ models:
           - not_null
 
       - name: store_id
-        description: Store identifier.
+        description: Surrogate key of the store.
         tests:
           - not_null
 
       - name: product_id
-        description: Product identifier.
-        tests:
-          - not_null
+        description: Surrogate key of the product.
 
       - name: couverture
         description: Stock coverage ratio (stock divided by sales).

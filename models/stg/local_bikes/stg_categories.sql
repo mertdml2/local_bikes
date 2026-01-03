@@ -1,6 +1,13 @@
+{{ config(
+    materialized = 'view',
+    tags = ['staging', 'categories']
+) }}
+
 with source as (
 
-    select *
+    select
+        category_id,
+        category_name
     from {{ source('stg', 'categories') }}
 
 ),
@@ -8,11 +15,24 @@ with source as (
 renamed as (
 
     select
-        cast(category_id as string)  as category_id,
-        cast(category_name as string)  as category_name
+        cast(category_id as string)     as category_id,
+        cast(category_name as string)   as category_name
     from source
+
+),
+
+final as (
+
+    select
+        {{ dbt_utils.generate_surrogate_key(['category_id']) }} as category_sk,
+        category_id,
+        category_name
+    from renamed
 
 )
 
-select *
-from renamed
+select
+    category_sk,
+    category_id,
+    category_name
+from final
