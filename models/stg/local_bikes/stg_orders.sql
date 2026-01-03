@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'view',
-    tags = ['staging', 'orders']
+    tags = ['staging', 'orders','ci']
 ) }}
 
 with source as (

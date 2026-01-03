@@ -1,0 +1,44 @@
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - devs
+
+jobs:
+  dbt-ci:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: .dbt
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dbt
+        run: |
+          pip install dbt-bigquery==1.8.0 dbt-utils
+
+      - name: Create GCP credentials file
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > /tmp/gcp-key.json
+
+      - name: dbt deps
+        run: dbt deps
+
+      - name: dbt compile
+        run: dbt compile
+
+      - name: dbt run (CI models only)
+        run: dbt run --select tag:ci
+
+      - name: dbt test
+        run: dbt test --select tag:ci

@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'view',
-    tags = ['intermediate', 'inventory']
+    tags = ['intermediate', 'inventory','ci']
 ) }}
 
 with stocks as (
