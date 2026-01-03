@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'view',
-    tags = ['intermediate', 'orders']
+    tags = ['intermediate', 'orders','ci']
 ) }}
 
 with order_items as (
