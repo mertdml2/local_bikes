@@ -25,7 +25,11 @@ jobs:
 
       - name: Create GCP credentials
         run: |
-          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > /tmp/gcp-key.json
+          echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > /tmp/gcp-key.json
+          
+      - name: Validate GCP key
+        run: |
+          cat /tmp/gcp-key.json | jq .
 
       - name: dbt deps
         run: dbt deps
