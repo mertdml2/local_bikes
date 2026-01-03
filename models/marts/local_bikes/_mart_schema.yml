@@ -3,14 +3,23 @@ version: 2
 models:
   - name: mart__fct_ventes
     description: "{{ doc('mart_fct_ventes') }}"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - product_id
+
     columns:
       - name: order_id
-        data_type: string
         description: "{{ doc('order_id') }}"
+        tests:
+          - not_null
 
       - name: product_id
-        data_type: string
-        description: "{{ doc('product_id') }}"
+        tests:
+          - relationships:
+              to: ref('mart__dim_products')
+              field: product_id
 
       - name: customer_id
         data_type: string
