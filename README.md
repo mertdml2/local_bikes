@@ -1,5 +1,5 @@
 # Local Bikes Retail Case Study
-End-to-End Analytics Engineering Project with Airbyte & BigQuery & dbt & GitHub Actions
+Production Grade, End-to-End Analytics Engineering Project with Airbyte & BigQuery & dbt & GitHub Actions
 
 Owner: Mert Demirel
 
