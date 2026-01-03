@@ -29,7 +29,7 @@ Lowest-performing products per store based on stock coverage.
 Identifies products with weak sales relative to stock availability.
 {% enddocs %}
 
-{% docs mart_fct_performance_commerciale_daily %}
+{% docs mart_fct_performance_commercial_daily %}
 Daily commercial performance metrics aggregated across all stores.
 Includes revenue, orders, units sold, and average basket size.
 {% enddocs %}
