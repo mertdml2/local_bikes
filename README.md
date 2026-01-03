@@ -1,19 +1,45 @@
-Mert x Databird final project documentation of Local Bikes
+# Local Bikes Retail Case Study
+End-to-End Analytics Engineering Project with Airbyte & BigQuery & dbt & GitHub Actions
 
+Owner: Mert Demirel
+
+
+## Security & Credentials
+This repository does **not** contain any credentials, secrets, or service
+account keys.
+All warehouse connections, environments, and executions are managed securely
+via **dbt Cloud**.
+
+Running this project requires:
+- A dbt Cloud account
+- A BigQuery project
+- Proper credentials configured by the user
+
+## Documentation
 This project is fully documented using:
 Model descriptions
 Column descriptions
 Business logic explanations
 
 To generate docs locally or in dbt Cloud:
-dbt docs generate
-dbt docs serve
 
-Auto-generated YAML
+- dbt docs generate
+- dbt docs serve
+
+**Auto-generated YAML**
+
 Schema files are generated using dbt-codegen:
-dbt run-operation generate_model_yaml --args '{ "model_names": [...] }'
 
-📈 Looker Studio Dashboards
+- dbt run-operation generate_model_yaml --args '{ "model_names": [...] }'
+
+Lineage of the project
+
+<img width="1734" height="820" alt="Screenshot 2026-01-03 at 1 58 51 pm" src="https://github.com/user-attachments/assets/f953fa12-2bef-453c-9dea-75499146248b" />
+
+## Business Intelligence / Restitution of Data
+
+For a quick representation of data as a dashboard, **Looker Studio** is used.
+
 https://lookerstudio.google.com/reporting/7a701296-b28c-4fc4-bfd8-a23e3af5c762
 
 The marts produced by this project feed Looker Studio dashboards designed for business users.
@@ -24,14 +50,9 @@ The marts produced by this project feed Looker Studio dashboards designed for bu
 
 <img width="1158" height="646" alt="Screenshot 2025-12-30 at 10 33 00 am" src="https://github.com/user-attachments/assets/357347eb-cf4e-45f2-b4aa-add23a5e14ff" />
 
-CI / Deployment
+## CI / Deployment
 
 dbt Cloud is used for orchestration
 Models are built automatically on merge to main
-Tests run before production deployment
+CI Job tests run before production deployment
 Documentation is refreshed after successful builds
-
-
-
-Authors & Ownership
-Mert Demirel
