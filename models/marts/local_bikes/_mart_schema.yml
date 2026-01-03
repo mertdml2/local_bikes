@@ -177,8 +177,8 @@ models:
         data_type: int64
         description: "{{ doc('rank_flop') }}"
 
-  - name: mart__fct_performance_commerciale_daily
-    description: "{{ doc('mart_fct_performance_commerciale_daily') }}"
+  - name: mart__fct_performance_commercial_daily
+    description: "{{ doc('mart_fct_performance_commercial_daily') }}"
     columns:
       - name: order_date
         data_type: date
