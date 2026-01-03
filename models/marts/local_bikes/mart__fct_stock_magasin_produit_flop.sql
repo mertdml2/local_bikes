@@ -1,16 +1,27 @@
-select 
-s.jour,
-s.store_id,
-ss.store_name,
-s.product_id,
-p.product_name,
-s.total_stock,
-s.total_sold,
-s.couverture,
-s.rank_flop
+{{ config(
+    materialized = 'table',
+    tags = ['mart', 'inventory', 'flop']
+) }}
 
- from {{ref('int_stock_magasin_top_flop')}} s
- join {{ref('mart__dim_products')}} p on s.product_id = p.product_id
- join {{ref('mart__dim_stores')}} ss on s.store_id = ss.store_id
- 
-where rank_flop <= 10
+select
+    s.jour,
+    s.store_id,
+    ds.store_name,
+
+    s.product_id,
+    dp.product_name,
+
+    s.total_stock,
+    s.total_sold,
+    s.couverture,
+    s.rank_flop
+
+from {{ ref('int_stock_magasin_top_flop') }} s
+
+join {{ ref('mart__dim_products') }} dp
+  on s.product_id = dp.product_id
+
+join {{ ref('mart__dim_stores') }} ds
+  on s.store_id = ds.store_id
+
+where s.rank_flop <= 10

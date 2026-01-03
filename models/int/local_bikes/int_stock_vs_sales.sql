@@ -1,16 +1,51 @@
-select
-    i.snapshot_date,
-    i.store_id,
-    i.product_id,
-    coalesce(sum(i.stock_quantity),0) as stock_quantity,
-    coalesce(sum(s.quantity), 0) as sold_quantity
-from {{ ref('int_stocks') }} i
-left join {{ ref('int_order_items_detailed') }} s
-  on i.store_id = s.store_id
- and i.product_id = s.product_id
- and s.order_date <= i.snapshot_date
-group by 
+{{ config(
+    materialized = 'view',
+    tags = ['intermediate', 'inventory']
+) }}
 
-    i.snapshot_date,
-    i.store_id,
-    i.product_id
+with stocks as (
+
+    select
+        snapshot_date,
+        store_id,
+        product_id,
+        stock_quantity
+    from {{ ref('int_stocks') }}
+
+),
+
+sales as (
+
+    select
+        store_id,
+        product_id,
+        order_date,
+        quantity
+    from {{ ref('int_order_items_detailed') }}
+
+),
+
+aggregated as (
+
+    select
+        s.snapshot_date,
+        s.store_id,
+        s.product_id,
+
+        coalesce(sum(s.stock_quantity), 0) as stock_quantity,
+        coalesce(sum(sa.quantity), 0)       as sold_quantity
+
+    from stocks s
+    left join sales sa
+        on s.store_id = sa.store_id
+       and s.product_id = sa.product_id
+       and sa.order_date <= s.snapshot_date
+
+    group by
+        s.snapshot_date,
+        s.store_id,
+        s.product_id
+)
+
+select *
+from aggregated

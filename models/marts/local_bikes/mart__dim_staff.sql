@@ -1,8 +1,13 @@
+{{ config(
+    materialized = 'table',
+    tags = ['mart', 'dimension', 'staff']
+) }}
+
 select
-    staff_id,
+    staff_sk,
     store_id,
     first_name,
     last_name,
-    active as is_active,
+    is_active,
     manager_id
 from {{ ref('stg_staffs') }}

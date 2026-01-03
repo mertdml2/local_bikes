@@ -1,9 +1,16 @@
+{{ config(
+    materialized = 'table',
+    tags = ['mart', 'inventory', 'top']
+) }}
+
 select 
 s.jour,
 s.store_id,
-ss.store_name,
 s.product_id,
+
+ss.store_name,
 p.product_name,
+
 s.total_stock,
 s.total_sold,
 s.couverture,

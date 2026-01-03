@@ -1,4 +1,10 @@
+{{ config(
+    materialized = 'table',
+    tags = ['mart', 'dimension', 'customer']
+) }}
+
 select
+    customer_sk,
     customer_id,
     first_name,
     last_name,

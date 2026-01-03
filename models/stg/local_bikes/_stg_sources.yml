@@ -1,5 +1,5 @@
 version: 2
-
+# BIGQUERY DLK SOURCES
 sources:
   - name: stg
     database: caramel-thinker-478614-h2
