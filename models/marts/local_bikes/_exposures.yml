@@ -1,0 +1,26 @@
+version: 2
+
+exposures:
+  - name: local_bikes_looker_studio_analytics
+    type: dashboard
+    maturity: high
+    url: https://lookerstudio.google.com/s/m2TPYntSFnI
+    description: >
+      Sales performance dashboard showing revenue, orders,
+      basket size, and store-level KPIs.
+
+    depends_on:
+      - ref('mart__fct_ventes')
+      - ref('mart__fct_performance_commercial_daily')
+      - ref('mart__fct_performance_commercial_magasin')
+      - ref('mart__fct_stock_magasin_produit_flop')
+      - ref('mart__fct_stock_magasin_produit_top')
+      - ref('mart__fct_stock_magasin')
+      - ref('mart__fct_vente_par_categorie') 
+      - ref('mart__dim_stores')
+      - ref('mart__dim_products')
+      - ref('mart__dim_customers')
+
+    owner:
+      name: Mert Demirel
+      email: mert.antoine@gmail.com

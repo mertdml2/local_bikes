@@ -31,14 +31,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   local_bikes:
-    staging:
+    stg:
       +schema: stg
       +materialized: view
+      +tags: ['staging']
 
-    intermediate:
+    int:
       +schema: int
       +materialized: view
+      +tags: ['intermediate']
 
     marts:
-      +schema: mart
+      +schema: marts
       +materialized: table
+      +tags: ['mart']
